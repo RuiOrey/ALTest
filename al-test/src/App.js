@@ -15,8 +15,8 @@ class App extends Component {
                         <h1 className="App-title">Welcome to Asets-Lux TEST</h1>
                     </header>
                     <p className="App-intro">
-                        To get started, edit <code>src/App.js</code> and save to reload. </p>
-
+                        {/*To get started, edit <code>src/App.js</code> and save to reload. */}
+                    </p>
                     <RendererTest></RendererTest>
                 </div>
             );
