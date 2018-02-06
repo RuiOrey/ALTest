@@ -41,21 +41,17 @@ export class RendererTest extends Component {
     }
 
     renderLoop = ( timeRenderLoopWasCalled ) => {
-
         this.updateChildren( timeRenderLoopWasCalled, this.children );
         this.renderer.render( this.scene, this.camera );
         requestAnimationFrame( this.renderLoop );
-
     }
 
     updateChildren = ( timeRenderLoopWasCalled, children ) => {
-
         if ( children === undefined )
             {
                 return;
             }
         children.forEach( ( child ) => {
-
             child.update ? child.update() : null;
             child.children ? this.updateChildren( timeRenderLoopWasCalled, child.children ) : null;
         } )

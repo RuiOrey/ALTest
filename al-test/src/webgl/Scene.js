@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Pipe } from "../app-logic/Pipe"
 
 import * as THREE from 'three';
 
@@ -45,8 +46,16 @@ export class Scene extends Component {
             this.scene.add( axesHelper );
         }
 
+    addChild = ( child ) => {
+        if ( child.mesh )
+            {
+                this.scene.add( child.mesh );
+            }
+        this.children.push( child );
+    }
+
     render()
         {
-            return <div>Scene</div>;
+            return <div>Scene<Pipe ref={this.addChild}></Pipe></div>;
         }
 }
