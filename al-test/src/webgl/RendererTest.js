@@ -18,7 +18,6 @@ export class RendererTest extends Component {
     componentDidMount()
         {
             ReactDOM.findDOMNode( this ).appendChild( this.canvas );
-            console.log( this.props.children );
             this.setupRendererDefaults();
             this.setupCanvasDefaults();
             this.setupResize();
@@ -50,14 +49,15 @@ export class RendererTest extends Component {
     }
 
     updateChildren = ( timeRenderLoopWasCalled, children ) => {
-        if ( !children )
+
+        if ( children === undefined )
             {
                 return;
             }
-        // console.log( children );
         children.forEach( ( child ) => {
+
             child.update ? child.update() : null;
-            child.props.children ? this.updateChildren( timeRenderLoopWasCalled, child.props.children ) : null;
+            child.children ? this.updateChildren( timeRenderLoopWasCalled, child.children ) : null;
         } )
     }
 
@@ -67,7 +67,7 @@ export class RendererTest extends Component {
             this.renderer.shadowMap.renderReverseSided = true;
             this.renderer.shadowMap.renderSingleSided = true;
             this.renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
-            this.renderer.setClearColor( 0xaaaaaa, 1.0 );
+            this.renderer.setClearColor( 0xdddddd, 1.0 );
             this.renderer.sortObjects = false;
 
         }
@@ -92,8 +92,8 @@ export class RendererTest extends Component {
     }
 
     setControls = ( controls ) => {
-        this.controls = controls;
         controls.init( this.camera, this.renderer.domElement );
+        this.controls = controls;
         this.children.push( controls );
     }
 
