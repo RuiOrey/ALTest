@@ -10,6 +10,7 @@
 .App-header {
     background-color: #1f8eb7;
     height: 150px;
+    padding-top: 20px;
     color: #1f8eb7;
     opacity: 0.2;
     transition-duration: .5s;
@@ -18,7 +19,6 @@
 .App-header:hover {
     opacity: 0.7;
     padding: 20px;
-
     color: white;
 }
 
