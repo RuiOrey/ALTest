@@ -13,6 +13,20 @@ export class Scene extends Component {
             this.scene.fog = new THREE.Fog( 0xdddddd, 0.015, 200 );
             this.initGrid();
             this.initAxes();
+            this.initLights();
+        }
+
+    initLights()
+        {
+            const light = new THREE.PointLight( 0xFFFFFF, 1, 100 );
+            light.position.set( 10, 30, 10 );
+            light.castShadow = true;
+            this.scene.add( light );
+
+            // const light2 = new THREE.PointLight( 0xFFFFFF, 1, 100 );
+            // light2.position.set( 0, 0, 0 );
+            // light2.castShadow = true;
+            // this.logo.add( light2 );
         }
 
     initGrid()

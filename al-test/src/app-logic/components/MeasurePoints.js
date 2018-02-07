@@ -8,7 +8,9 @@ export const hasMeasurePoints = ( possibleSubObjects ) => {
             this.point2 = point2;
             this.distanceVector = distanceVector;
             this.visible = true;
-            this.material = new THREE.LineBasicMaterial( { color: 0x0000ff } );
+            const _randomColor = '#' + (Math.random() * 0xFFFFFF << 0).toString( 16 );
+            this.color = _randomColor;
+            this.material = new THREE.LineBasicMaterial( { color: this.color } );
             this.geometry = new THREE.Geometry();
             const _halfDistanceVector = distanceVector.clone().normalize().multiplyScalar( 0.2 );
             const _lineBorders = {
@@ -49,7 +51,7 @@ export const hasMeasurePoints = ( possibleSubObjects ) => {
                     curveSegments: 12
                 } );
 
-                _measurePoint.text = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: 0x0000ff } ) );
+                _measurePoint.text = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: _measurePoint.color } ) );
                 _measurePoint.line.add( _measurePoint.text );
                 _measurePoint.text.position.add( point1.lerp( point2, 0.5 ) ).add( distanceVector.clone().normalize().multiplyScalar( 0.5 ) );
                 _measurePoint.text.geometry.center();
@@ -58,7 +60,7 @@ export const hasMeasurePoints = ( possibleSubObjects ) => {
             this.measurePoints.push( _measurePoint );
             console.log( this.mesh.parent );
             this.mesh.add( _measurePoint.line );
-            _measurePoint.line.position.add( distanceVector );
+            _measurePoint.line.position.add( distanceVector ).add( distanceVector.clone().multiplyScalar( Math.random() ) );
         }
 
     let state = {
