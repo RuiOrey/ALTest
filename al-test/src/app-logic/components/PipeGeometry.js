@@ -11,7 +11,6 @@ export const isPipeGeometry = ( outerState ) => {
         radius: 0.5,
         radialSegments: 20,
         closed: false
-
     };
 
     Object.assign( state, outerState );
@@ -19,5 +18,6 @@ export const isPipeGeometry = ( outerState ) => {
 
     state.geometry = new THREE.TubeGeometry( state.path, state.tubularSegments, state.outerDiameter, state.radialSegments, state.closed );
     state.mesh = new THREE.Mesh( state.geometry, externalMaterial() );
+    state.center = new THREE.Vector3( 0, state.height / 2, 0 );
     return state;
 };
