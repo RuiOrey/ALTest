@@ -5,14 +5,19 @@ import { externalMaterial } from "../webgl/Materials";
 export const isPipeGeometry = ( outerState ) => {
 
     let state = {
-        height: 20.0,
-        outerDiameter: 1.0
+        height: 10.0,
+        outerDiameter: 0.5,
+        tubularSegments: 200,
+        radius: 0.5,
+        radialSegments: 20,
+        closed: false
+
     };
 
     Object.assign( state, outerState );
-
     state.path = new StraightCurve( state.height );
-    state.geometry = new THREE.TubeGeometry( state.path, 200, state.outerDiameter, 20, false );
+
+    state.geometry = new THREE.TubeGeometry( state.path, state.tubularSegments, state.outerDiameter, state.radialSegments, state.closed );
     state.mesh = new THREE.Mesh( state.geometry, externalMaterial() );
     return state;
 };
@@ -38,21 +43,54 @@ export const hasMeasurePoints = ( possibleSubObjects ) => {
             this.visible = true;
             this.material = new THREE.LineBasicMaterial( { color: 0x0000ff } );
             this.geometry = new THREE.Geometry();
-            this.geometry.vertices.push( point1 + distanceVector );
-            this.geometry.vertices.push( point2 + distanceVector );
-            this.line = new THREE.Line( geometry, material );
+            const _halfDistanceVector = distanceVector.clone().divideScalar( 3 );
+            const _lineBorders = {
+                top: [
+                    point1.clone().add( _halfDistanceVector ),
+                    point1.clone().sub( _halfDistanceVector )
+                ],
+                bottom: [
+                    point2.clone().add( _halfDistanceVector ),
+                    point2.clone().sub( _halfDistanceVector ) ]
+            };
+            this.geometry.vertices.push( _lineBorders.top[ 0 ], _lineBorders.top[ 1 ] );
+            this.geometry.vertices.push( _lineBorders.bottom[ 0 ], _lineBorders.bottom[ 1 ] );
+            this.geometry.vertices.push( point1 );
+            this.geometry.vertices.push( point2 );
+            this.distanceScalar = point1.distanceTo( point2 );
+            this.line = new THREE.LineSegments( this.geometry, this.material );
+            this.line.linewidth = 2;
+            this.text = null;
+
         }
 
     function addMeasurePointPair( point1, point2, distanceVector )
         {
-            if ( point1 !== THREE.Vector3 || point2 !== THREE.Vector3 || distanceVector !== THREE.Vector3 )
+            if ( !(point1 instanceof THREE.Vector3) || !(point2 instanceof THREE.Vector3) || !(distanceVector instanceof THREE.Vector3 ) )
                 {
                     return;
                 }
-            const _measurePoint = new MeasurePoint( point1, point2, point3 );
-            this.measurePoints.push( _measurePoint );
-            this.add( _measurePoint.line );
+            const _measurePoint = new MeasurePoint( point1, point2, distanceVector );
+            const loader = new THREE.FontLoader();
 
+            loader.load( 'fonts/helvetiker_regular.typeface.json', function ( font ) {
+
+                const geometry = new THREE.TextGeometry( _measurePoint.distanceScalar, {
+                    font: font,
+                    size: .5,
+                    height: 0.01,
+                    curveSegments: 12
+                } );
+
+                _measurePoint.text = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: 0x0000ff } ) );
+                _measurePoint.line.add( _measurePoint.text );
+                _measurePoint.text.position.add( point1.lerp( point2, 0.5 ) );
+            } );
+
+            this.measurePoints.push( _measurePoint );
+            console.log( this.mesh.parent );
+            this.mesh.add( _measurePoint.line );
+            _measurePoint.line.position.add( distanceVector );
         }
 
     let state = {
