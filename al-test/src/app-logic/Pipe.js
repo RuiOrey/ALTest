@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { isPipeGeometry } from "./components/PipeGeometry"
 import { hasSubObjects } from "./components/SubObjects";
 import { hasMeasurePoints } from "./components/MeasurePoints";
+import { hasAxis } from "./components/Axis";
 
 export class Pipe extends Component {
 
@@ -14,6 +15,7 @@ export class Pipe extends Component {
             Object.assign( this, isPipeGeometry( props.attributes ) );
             Object.assign( this, hasSubObjects( this.possibleSubObjects ) );
             Object.assign( this, hasMeasurePoints( this.possibleSubObjects ) );
+            Object.assign( this, hasAxis( props.attributes, this ) );
         }
 
     componentDidMount()
