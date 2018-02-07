@@ -15,8 +15,8 @@ export class DatGui extends Component {
             closed: false
         },
         flare: {
-            tipFlareHeightFromBase: 4.0,
-            tipFlareTopHeight: 2.0,
+            tipFlareHeightFromBase: 5.0,
+            tipFlareTopHeight: 3.0,
             tipFlareDiameter: 0.125,
             tipFlareBottomThickness: 0.012,
             tipFlareTopThickness: 0.009,
@@ -67,47 +67,51 @@ export class DatGui extends Component {
 
             this.pipeUpdate();
         } );*/
+
+        this.pipeUI.open();
     }
 
     buildFlareUI = () => {
         //Flare
 
         this.flare = this.gui.addFolder( "Flare Tip" );
-        this.flare.add( this.params.flare, 'tipFlareHeightFromBase', 0.1, 100 ).step( 0.1 ).name( 'tipFlareHeightFromBase' ).onChange( () => {
+        this.flare.add( this.params.flare, 'tipFlareHeightFromBase', 0.1, 20 ).step( 0.1 ).name( 'height from base' ).onChange( () => {
             this.flareUpdate();
         } );
-        this.flare.add( this.params.flare, 'tipFlareTopHeight', 0.1, 100 ).step( 0.1 ).name( 'tipFlareTopHeight' ).onChange( () => {
+        this.flare.add( this.params.flare, 'tipFlareTopHeight', 0.1, 4).step( 0.1 ).name( 'top height' ).onChange( () => {
             this.flareUpdate();
         } );
-        this.flare.add( this.params.flare, 'tipFlareDiameter', 0.1, 100 ).step( 0.1 ).name( 'tipFlareDiameter' ).onChange( () => {
+        // this.flare.add( this.params.flare, 'tipFlareDiameter', 0.1, 100 ).step( 0.1 ).name( 'tipFlareDiameter' ).onChange( () => {
+        //     this.flareUpdate();
+        // } );
+        // this.flare.add( this.params.flare, 'tipFlareBottomThickness', 0.1, 100 ).step( 0.1 ).name( 'tipFlareBottomThickness' ).onChange( () => {
+        //     this.flareUpdate();
+        // } );
+        // this.flare.add( this.params.flare, 'tipFlareTopThickness', 0.1, 100 ).step( 0.1 ).name( 'tipFlareTopThickness' ).onChange( () => {
+        //     this.flareUpdate();
+        // } );
+        this.flare.add( this.params.flare, 'tipFlareBottomInclination', 0.1, 1 ).step( 0.1 ).name( 'inclination' ).onChange( () => {
             this.flareUpdate();
         } );
-        this.flare.add( this.params.flare, 'tipFlareBottomThickness', 0.1, 100 ).step( 0.1 ).name( 'tipFlareBottomThickness' ).onChange( () => {
+        this.flare.add( this.params.flare, 'tipFlarePieces', 1, 20 ).step( 1 ).name( 'pieces' ).onChange( () => {
             this.flareUpdate();
         } );
-        this.flare.add( this.params.flare, 'tipFlareTopThickness', 0.1, 100 ).step( 0.1 ).name( 'tipFlareTopThickness' ).onChange( () => {
+        // this.flare.add( this.params.flare, 'tubularSegments', 0.1, 100 ).step( 0.1 ).name( 'tubularSegments' ).onChange( () => {
+        //     this.flareUpdate();
+        // } );
+        this.flare.add( this.params.flare, 'radius', 0.1, 2 ).step( 0.1 ).name( 'radius tubes' ).onChange( () => {
             this.flareUpdate();
         } );
-        this.flare.add( this.params.flare, 'tipFlareBottomInclination', 0.1, 100 ).step( 0.1 ).name( 'tipFlareBottomInclination' ).onChange( () => {
-            this.flareUpdate();
-        } );
-        this.flare.add( this.params.flare, 'tipFlarePieces', 0.1, 100 ).step( 0.1 ).name( 'tipFlarePieces' ).onChange( () => {
-            this.flareUpdate();
-        } );
-        this.flare.add( this.params.flare, 'tubularSegments', 0.1, 100 ).step( 0.1 ).name( 'tubularSegments' ).onChange( () => {
-            this.flareUpdate();
-        } );
-        this.flare.add( this.params.flare, 'radius', 0.1, 100 ).step( 0.1 ).name( 'radius' ).onChange( () => {
-            this.flareUpdate();
-        } );
-        this.flare.add( this.params.flare, 'radialSegments', 0.1, 100 ).step( 0.1 ).name( 'radialSegments' ).onChange( () => {
-            this.flareUpdate();
-        } );
+        // this.flare.add( this.params.flare, 'radialSegments', 0.1, 100 ).step( 0.1 ).name( 'radialSegments' ).onChange( () => {
+        //     this.flareUpdate();
+        // } );
 
-        this.flare.add( this.params.flare, 'closed' ).listen().name( 'closed' ).onChange( () => {
+        // this.flare.add( this.params.flare, 'closed' ).listen().name( 'closed' ).onChange( () => {
+        //
+        //     // this.resetStraightCylinder()
+        // } );
 
-            // this.resetStraightCylinder()
-        } );
+        this.flare.open();
     }
 
     init = () => {

@@ -38,7 +38,6 @@ export function TipFlareCurve( totalHeight, topHeight, inclination )
         this.bottomHeight = this.totalHeight - this.topHeight;
         this.inclination = ( inclination === undefined ) ? 1 : inclination;
         this.half = this.bottomHeight / (this.totalHeight);
-        // console.log( this, totalHeight, topHeight, inclination )
     }
 
 TipFlareCurve.prototype = Object.create( THREE.Curve.prototype );

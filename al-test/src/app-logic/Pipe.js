@@ -59,7 +59,7 @@ export class Pipe extends Component {
     }
 
     getMesh = () => {
-        console.log( this.mesh );
+        // console.log( this.mesh );
         return this.mesh;
     }
 
