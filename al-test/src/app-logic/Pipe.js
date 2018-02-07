@@ -45,6 +45,8 @@ export class Pipe extends Component {
 
                 this.buildPipe();
                 _parent.add( this.mesh );
+                this.addMeasurePointPair( this.path.getPointAt( 1 ), this.path.getPointAt( 0 ), new THREE.Vector3( this.radius * 2, 0, 0 ) );
+                this.buildAxis();
             }
     }
 
