@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import * as THREE from 'three';
-import { isPipeGeometry, hasSubObjects, hasMeasurePoints } from "./components";
+import { isPipeGeometry } from "./components/PipeGeometry"
+import { hasSubObjects } from "./components/SubObjects";
+import { hasMeasurePoints } from "./components/MeasurePoints";
 
 export class Pipe extends Component {
 

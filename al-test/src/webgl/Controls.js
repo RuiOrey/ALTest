@@ -19,7 +19,7 @@ export class Controls extends Component {
 
     update()
         {
-            console.log( "updating controls test" );
+            // console.log( "updating controls test" );
         }
 
     render()
