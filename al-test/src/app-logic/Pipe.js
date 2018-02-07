@@ -20,19 +20,6 @@ export class Pipe extends Component {
             props.registerUpdatePipe( this.rebuildPipe );
         }
 
-    componentDidMount()
-        {
-            // this.addMeasurePointPair( new THREE.Vector3( -this.radius / 2, 0, 0 ), new THREE.Vector3( this.radius / 2, 0, 0 ), new THREE.Vector3( 0, this.path.getPointAt( 1 ).y / 2 + this.radius, 0 ) );
-            this.addMeasurePointPair( this.path.getPointAt( 1 ), this.path.getPointAt( 0 ), new THREE.Vector3( this.radius * 2, 0, 0 ) );
-        }
-
-    componentWillReceiveProps( nextProps )
-        {
-            console.log( "Pipe componentWillReceiveProps:", nextProps );
-
-            this.rebuildPipe( nextProps.parameters );
-        }
-
     rebuildPipe = ( parameters ) => {
         Object.assign( this, parameters );
         if ( this.mesh )
@@ -50,6 +37,19 @@ export class Pipe extends Component {
             }
     }
 
+    componentDidMount()
+        {
+            // this.addMeasurePointPair( new THREE.Vector3( -this.radius / 2, 0, 0 ), new THREE.Vector3( this.radius / 2, 0, 0 ), new THREE.Vector3( 0, this.path.getPointAt( 1 ).y / 2 + this.radius, 0 ) );
+            this.addMeasurePointPair( this.path.getPointAt( 1 ), this.path.getPointAt( 0 ), new THREE.Vector3( this.radius * 2, 0, 0 ) );
+        }
+
+    componentWillReceiveProps( nextProps )
+        {
+            console.log( "Pipe componentWillReceiveProps:", nextProps );
+
+            this.rebuildPipe( nextProps.parameters );
+        }
+
     addChild = ( child ) => {
         if ( child.mesh )
             {
@@ -58,8 +58,15 @@ export class Pipe extends Component {
         this.subObjects.push( child );
     }
 
+    getMesh = () => {
+        console.log( this.mesh );
+        return this.mesh;
+    }
+
     render()
         {
-            return <div>Pipe<TipFlare parameters={this.props.parameters.flare} ref={this.addChild}></TipFlare></div>
+            return <div>Pipe<TipFlare getParent={this.getMesh}
+                                      registerUpdateFlareTip={this.props.registerUpdateFlareTip}
+                                      parameters={this.props.parameters.flare} ref={this.addChild}></TipFlare></div>
         }
 }

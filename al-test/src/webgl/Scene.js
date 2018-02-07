@@ -79,7 +79,8 @@ export class Scene extends Component {
     render()
         {
             console.log( "Scene render props:", this.props );
-            return <div>Scene<Pipe registerUpdatePipe={this.props.registerUpdatePipe} parameters={this.props.parameters}
+            return <div>Scene<Pipe registerUpdateFlareTip={this.props.registerUpdateFlareTip}
+                                   registerUpdatePipe={this.props.registerUpdatePipe} parameters={this.props.parameters}
                                    ref={this.addChild}></Pipe></div>;
         }
 }

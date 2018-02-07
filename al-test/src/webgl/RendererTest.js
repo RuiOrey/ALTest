@@ -140,15 +140,25 @@ export class RendererTest extends Component {
         this.updatePipe( params );
     }
 
+    registerUpdateFlareTip = ( updateFlareTip ) => {
+        this.updateFlareTip = updateFlareTip;
+    }
+
+    flareTipUpdated = ( params ) => {
+        this.updateFlareTip( params );
+    }
+
     render()
         {
             let _children = [];
             this.children = [];
-            _children.push( <DatGui pipeUpdate={this.pipeUpdated} ref={ui => this.setUI( ui )}
-                                    key="testForUpdate4"></DatGui> );
+            _children.push( <DatGui pipeUpdate={this.pipeUpdated} flareTipUpdated={this.flareTipUpdated}
+                                    ref={ui => this.setUI( ui )} key="testForUpdate4"></DatGui> );
             _children.push( <Camera ref={camera => this.setCamera( camera )} key="testForUpdate"></Camera> );
-            _children.push( <Scene registerUpdatePipe={this.registerUpdatePipe} parameters={this.sceneParameters}
-                                   ref={scene => this.setScene( scene )} key="testForUpdate2"></Scene> );
+            _children.push( <Scene registerUpdatePipe={this.registerUpdatePipe}
+                                   registerUpdateFlareTip={this.registerUpdateFlareTip}
+                                   parameters={this.sceneParameters} ref={scene => this.setScene( scene )}
+                                   key="testForUpdate2"></Scene> );
             _children.push( <Controls ref={controls => this.setControls( controls )} key="testForUpdate3"></Controls> );
 
             return <div className="scene">{_children} </div>;

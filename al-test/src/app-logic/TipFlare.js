@@ -11,7 +11,27 @@ export class TipFlare extends Component {
             Object.assign( this, isPipeTipFlareGeometry( props.attributes ) );
             Object.assign( this, hasMeasurePoints( this.possibleSubObjects ) );
             Object.assign( this, hasAxis( props.attributes, this ) );
+            props.registerUpdateFlareTip( this.rebuildFlareTip );
         }
+
+    rebuildFlareTip = ( parameters ) => {
+        Object.assign( this, parameters );
+        if ( this.mesh )
+            {
+                let _parent = this.mesh.parent;
+                _parent.remove( this.mesh );
+                this.mesh.geometry.dispose();
+                this.mesh.material.dispose();
+                this.mesh = undefined;
+            }
+        this.buildFlareTip();
+        //_parent.add( this.mesh );
+        // this.addMeasurePointPair( this.path.getPointAt( 1 ), this.path.getPointAt( 0 ), new THREE.Vector3( this.radius * 2, 0, 0 ) );
+        this.buildAxis();
+        const _newParent = this.props.getParent();
+        _newParent.add( this.mesh );
+
+    }
 
     componentWillReceiveProps( nextProps )
         {

@@ -15,27 +15,30 @@ export const isPipeTipFlareGeometry = ( outerState ) => {
         tubularSegments: 200,
         radius: 0.0625,
         radialSegments: 20,
-        closed: false
+        closed: false,
+        buildFlareTip: function () {
+            this.path = new TipFlareCurve( this.tipFlareHeightFromBase, this.tipFlareTopHeight, this.tipFlareBottomInclination );
+            //state.path = new StraightCurve( state.tipFlareHeightFromBase );
+
+            this.geometry = new THREE.TubeGeometry( this.path, this.tubularSegments, this.radius, this.radialSegments, this.closed );
+            this.mesh = new THREE.Mesh();
+            for ( let i = 0; i < this.tipFlarePieces; i++ )
+                {
+                    const _newTube = new THREE.Mesh( this.geometry, insideMaterial );
+                    _newTube.castShadow = true;
+                    _newTube.receiveShadow = true;
+                    this.mesh.add( _newTube );
+
+                    _newTube.rotation.y = i * ( (2 * Math.PI) / this.tipFlarePieces )
+
+                }
+            this.mesh.position.add( new THREE.Vector3( 0, this.tipFlareHeightFromBase, 0 ) );
+
+            this.center = new THREE.Vector3( 0, this.height / 2, 0 );
+        }
     };
 
     Object.assign( state, outerState );
-    state.path = new TipFlareCurve( state.tipFlareHeightFromBase, state.tipFlareTopHeight, state.tipFlareBottomInclination );
-    //state.path = new StraightCurve( state.tipFlareHeightFromBase );
-
-    state.geometry = new THREE.TubeGeometry( state.path, state.tubularSegments, state.radius, state.radialSegments, state.closed );
-    state.mesh = new THREE.Mesh();
-    for ( let i = 0; i < state.tipFlarePieces; i++ )
-        {
-            const _newTube = new THREE.Mesh( state.geometry, insideMaterial );
-            _newTube.castShadow = true;
-            _newTube.receiveShadow = true;
-            state.mesh.add( _newTube );
-
-            _newTube.rotation.y = i * ( (2 * Math.PI) / state.tipFlarePieces )
-
-        }
-    state.mesh.position.add( new THREE.Vector3( 0, state.tipFlareHeightFromBase, 0 ) );
-
-    state.center = new THREE.Vector3( 0, state.height / 2, 0 );
+    state.buildFlareTip();
     return state;
 };
