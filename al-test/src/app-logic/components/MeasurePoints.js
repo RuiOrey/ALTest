@@ -10,7 +10,7 @@ export const hasMeasurePoints = ( possibleSubObjects ) => {
             this.visible = true;
             this.material = new THREE.LineBasicMaterial( { color: 0x0000ff } );
             this.geometry = new THREE.Geometry();
-            const _halfDistanceVector = distanceVector.clone().divideScalar( 3 );
+            const _halfDistanceVector = distanceVector.clone().normalize().multiplyScalar( 0.2 );
             const _lineBorders = {
                 top: [
                     point1.clone().add( _halfDistanceVector ),
@@ -51,7 +51,8 @@ export const hasMeasurePoints = ( possibleSubObjects ) => {
 
                 _measurePoint.text = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: 0x0000ff } ) );
                 _measurePoint.line.add( _measurePoint.text );
-                _measurePoint.text.position.add( point1.lerp( point2, 0.5 ) );
+                _measurePoint.text.position.add( point1.lerp( point2, 0.5 ) ).add( distanceVector.clone().normalize().multiplyScalar( 0.5 ) );
+                _measurePoint.text.geometry.center();
             } );
 
             this.measurePoints.push( _measurePoint );

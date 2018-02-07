@@ -21,6 +21,7 @@ export class Pipe extends Component {
     componentDidMount()
         {
 
+            this.addMeasurePointPair( new THREE.Vector3( -this.radius, 0, 0 ), new THREE.Vector3( this.radius, 0, 0 ), new THREE.Vector3( 0, this.height + this.radius * 2, 0 ) );
             this.addMeasurePointPair( this.path.getPointAt( 1 ), this.path.getPointAt( 0 ), new THREE.Vector3( this.radius * 2, 0, 0 ) );
             console.log( this );
         }
