@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import * as THREE from 'three';
 import { isPipeTipFlareGeometry } from "./components/PipeTipFlareGeometry"
 import { hasMeasurePoints } from "./components/MeasurePoints";
 import { hasAxis } from "./components/Axis";
@@ -14,12 +13,16 @@ export class TipFlare extends Component {
             Object.assign( this, hasAxis( props.attributes, this ) );
         }
 
+    componentWillReceiveProps( nextProps )
+        {
+            console.log( "TipFlare componentWillReceiveProps:", nextProps );
+        }
+
     componentDidMount()
         {
 
             // this.addMeasurePointPair( new THREE.Vector3( -this.radius, 0, 0 ), new THREE.Vector3( this.radius, 0, 0 ), new THREE.Vector3( 0, this.height + this.radius * 2, 0 ) );
             // this.addMeasurePointPair( this.path.getPointAt( 1 ), this.path.getPointAt( 0 ), new THREE.Vector3( this.radius * 2, 0, 0 ) );
-            console.log( this );
         }
 
     render()

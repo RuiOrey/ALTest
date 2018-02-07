@@ -16,11 +16,19 @@ export class Scene extends Component {
             this.initLights();
         }
 
+    componentWillReceiveProps( nextProps )
+        {
+            console.log( "Scene componentWillReceiveProps:", nextProps );
+        }
+
     initLights()
         {
             const light = new THREE.PointLight( 0xFFFFFF, 1, 100 );
-            light.position.set( 10, 30, 10 );
+            light.position.set( 10, 7, 5 );
+
             light.castShadow = true;
+            light.shadow.mapSize = new THREE.Vector2( 1024, 1024 );
+
             this.scene.add( light );
 
             // const light2 = new THREE.PointLight( 0xFFFFFF, 1, 100 );
@@ -70,6 +78,8 @@ export class Scene extends Component {
 
     render()
         {
-            return <div>Scene<Pipe ref={this.addChild}></Pipe></div>;
+            console.log( "Scene render props:", this.props );
+            return <div>Scene<Pipe registerUpdatePipe={this.props.registerUpdatePipe} parameters={this.props.parameters}
+                                   ref={this.addChild}></Pipe></div>;
         }
 }

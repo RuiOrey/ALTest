@@ -6,14 +6,21 @@ import * as THREE from 'three';
 import { Scene } from './Scene';
 import { Camera } from './Camera';
 import { Controls } from './Controls';
+import { DatGui } from "../ui/DatGui"
 
 export class RendererTest extends Component {
 
     registeredUpdates = [];
     renderer = new THREE.WebGLRenderer( {
-        alpha: true
+        alpha: true,
+        antialias: true
     } );
+    ui = {};
     canvas = this.renderer.domElement;
+    sceneParameters = {};
+    state = {
+        loadedUI: false
+    }
 
     componentDidMount()
         {
@@ -78,29 +85,72 @@ export class RendererTest extends Component {
         }
 
     setCamera = ( camera ) => {
+        if ( !camera )
+            {
+                return;
+            }
         this.camera = camera.camera;
         this.children.push( camera );
     };
 
     setScene = ( scene ) => {
+
+        if ( !scene )
+            {
+                return;
+            }
         this.scene = scene.scene;
         this.children.push( scene );
     }
 
     setControls = ( controls ) => {
+
+        if ( !controls )
+            {
+                return;
+            }
         controls.init( this.camera, this.renderer.domElement );
         this.controls = controls;
         this.children.push( controls );
+    }
+
+    setUI = ( ui ) => {
+        if ( !ui )
+            {
+                return;
+            }
+        //ui.init();
+        this.ui = ui;
+
+        console.log( "renderer setUI", this.ui );
+        // console.log( "renderer setUI 2", this.ui.params );
+        this.sceneParameters = ui ? ui.params : {};
+
+        if ( !this.state.loadedUI )
+            {
+                this.setState( { loadedUI: true } );
+            }
+    }
+
+    registerUpdatePipe = ( updatePipeFunction ) => {
+        this.updatePipe = updatePipeFunction;
+    }
+
+    pipeUpdated = ( params ) => {
+        this.updatePipe( params );
     }
 
     render()
         {
             let _children = [];
             this.children = [];
+            _children.push( <DatGui pipeUpdate={this.pipeUpdated} ref={ui => this.setUI( ui )}
+                                    key="testForUpdate4"></DatGui> );
             _children.push( <Camera ref={camera => this.setCamera( camera )} key="testForUpdate"></Camera> );
-            _children.push( <Scene ref={scene => this.setScene( scene )} key="testForUpdate2"></Scene> );
+            _children.push( <Scene registerUpdatePipe={this.registerUpdatePipe} parameters={this.sceneParameters}
+                                   ref={scene => this.setScene( scene )} key="testForUpdate2"></Scene> );
             _children.push( <Controls ref={controls => this.setControls( controls )} key="testForUpdate3"></Controls> );
 
-            return _children;
+            return <div className="scene">{_children} </div>;
         }
 }

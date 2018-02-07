@@ -13,19 +13,40 @@ export class Pipe extends Component {
     constructor( props )
         {
             super();
-            Object.assign( this, isPipeGeometry( props.attributes ) );
-            Object.assign( this, hasSubObjects( this.possibleSubObjects, props.attributes ) );
+            Object.assign( this, isPipeGeometry( props.parameters.pipe ) );
+            Object.assign( this, hasSubObjects( this.possibleSubObjects, props.parameters ) );
             Object.assign( this, hasMeasurePoints( this.possibleSubObjects ) );
             Object.assign( this, hasAxis( props.attributes, this ) );
+            props.registerUpdatePipe( this.rebuildPipe );
         }
 
     componentDidMount()
         {
-
             // this.addMeasurePointPair( new THREE.Vector3( -this.radius / 2, 0, 0 ), new THREE.Vector3( this.radius / 2, 0, 0 ), new THREE.Vector3( 0, this.path.getPointAt( 1 ).y / 2 + this.radius, 0 ) );
             this.addMeasurePointPair( this.path.getPointAt( 1 ), this.path.getPointAt( 0 ), new THREE.Vector3( this.radius * 2, 0, 0 ) );
-            console.log( this );
         }
+
+    componentWillReceiveProps( nextProps )
+        {
+            console.log( "Pipe componentWillReceiveProps:", nextProps );
+
+            this.rebuildPipe( nextProps.parameters );
+        }
+
+    rebuildPipe = ( parameters ) => {
+        Object.assign( this, parameters );
+        if ( this.mesh )
+            {
+                let _parent = this.mesh.parent;
+                _parent.remove( this.mesh );
+                this.mesh.geometry.dispose();
+                this.mesh.material.dispose();
+                this.mesh = undefined;
+
+                this.buildPipe();
+                _parent.add( this.mesh );
+            }
+    }
 
     addChild = ( child ) => {
         if ( child.mesh )
@@ -37,6 +58,6 @@ export class Pipe extends Component {
 
     render()
         {
-            return <div>Pipe<TipFlare ref={this.addChild}></TipFlare></div>
+            return <div>Pipe<TipFlare parameters={this.props.parameters.flare} ref={this.addChild}></TipFlare></div>
         }
 }

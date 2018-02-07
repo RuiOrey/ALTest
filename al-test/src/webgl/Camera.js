@@ -26,7 +26,7 @@ export class Camera extends Component {
     setupResize()
         {
             window.addEventListener( "resize", () => {
-                console.log( "adjusting camera", this.camera )
+                //      console.log( "adjusting camera", this.camera )
                 this.camera.aspect = window.innerWidth / window.innerHeight;
                 this.camera.updateProjectionMatrix();
             } );

@@ -1,8 +1,6 @@
 import * as THREE from 'three';
-import { TipFlareCurve, StraightCurve } from "../Curves";
+import { TipFlareCurve } from "../Curves";
 import { insideMaterial } from "../../webgl/Materials"
-
-"../../webgl/Materials";
 
 export const isPipeTipFlareGeometry = ( outerState ) => {
 
@@ -29,6 +27,8 @@ export const isPipeTipFlareGeometry = ( outerState ) => {
     for ( let i = 0; i < state.tipFlarePieces; i++ )
         {
             const _newTube = new THREE.Mesh( state.geometry, insideMaterial );
+            _newTube.castShadow = true;
+            _newTube.receiveShadow = true;
             state.mesh.add( _newTube );
 
             _newTube.rotation.y = i * ( (2 * Math.PI) / state.tipFlarePieces )

@@ -10,14 +10,20 @@ export const isPipeGeometry = ( outerState ) => {
         tubularSegments: 200,
         radius: 0.5,
         radialSegments: 20,
-        closed: false
+        closed: false,
+        buildPipe: function () {
+            console.log( "buildPipe" )
+            this.path = new StraightCurve( this.height );
+
+            this.geometry = new THREE.TubeGeometry( this.path, this.tubularSegments, this.outerDiameter, this.radialSegments, this.closed );
+            this.mesh = new THREE.Mesh( this.geometry, externalMaterial );
+            this.mesh.castShadow = true;
+            this.mesh.receiveShadow = true;
+            this.center = new THREE.Vector3( 0, this.height / 2, 0 );
+        }
     };
 
     Object.assign( state, outerState );
-    state.path = new StraightCurve( state.height );
-
-    state.geometry = new THREE.TubeGeometry( state.path, state.tubularSegments, state.outerDiameter, state.radialSegments, state.closed );
-    state.mesh = new THREE.Mesh( state.geometry, externalMaterial );
-    state.center = new THREE.Vector3( 0, state.height / 2, 0 );
+    state.buildPipe();
     return state;
 };
